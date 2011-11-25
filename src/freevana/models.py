@@ -18,11 +18,11 @@ class DatabaseVersion(models.Model):
 
 class MovieSource(models.Model):
     id = models.IntegerField(null=True, primary_key=True, blank=True)
-    movie_id = models.IntegerField(null=True, blank=True)
-    source = models.TextField(blank=True)
+    movie = models.ForeignKey('Movie', db_column='movie_id')
+    host = models.TextField(blank=True, db_column='source')
     definition = models.TextField(blank=True)
     audio = models.TextField(blank=True)
-    url = models.TextField(blank=True)
+    source_url = models.TextField(blank=True, db_column='url')
     class Meta:
         db_table = u'movie_sources'
 
@@ -47,7 +47,7 @@ class Serie(models.Model):
 
 class SerieEpisodeSource(models.Model):
     id = models.IntegerField(null=True, primary_key=True, blank=True)
-    series_episode_id = models.IntegerField(null=True, blank=True)
+    series_episode_id = models.ForeignKey('SerieEpisode')
     source = models.TextField(blank=True)
     definition = models.TextField(blank=True)
     audio = models.TextField(blank=True)
@@ -57,7 +57,7 @@ class SerieEpisodeSource(models.Model):
 
 class SerieEpisode(models.Model):
     id = models.IntegerField(null=True, primary_key=True, blank=True)
-    season_id = models.IntegerField(null=True, blank=True)
+    season_id = models.ForeignKey('SerieSeason')
     number = models.TextField(blank=True)
     short_name = models.TextField(blank=True)
     name = models.TextField(blank=True)
@@ -69,7 +69,7 @@ class SerieEpisode(models.Model):
 
 class SerieSeason(models.Model):
     id = models.IntegerField(null=True, primary_key=True, blank=True)
-    series_id = models.IntegerField(null=True, blank=True)
+    series_id = models.ForeignKey('Serie')
     number = models.IntegerField(null=True, blank=True)
     name = models.TextField(blank=True)
     finished = models.IntegerField(null=True, blank=True)
